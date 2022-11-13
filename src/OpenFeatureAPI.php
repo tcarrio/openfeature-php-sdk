@@ -6,6 +6,7 @@ namespace OpenFeature;
 
 use OpenFeature\implementation\flags\NoOpClient;
 use OpenFeature\implementation\provider\NoOpProvider;
+use OpenFeature\interfaces\common\ContainerAwareTrait;
 use OpenFeature\interfaces\common\LoggerAwareTrait;
 use OpenFeature\interfaces\common\Metadata;
 use OpenFeature\interfaces\flags\API;
@@ -13,20 +14,17 @@ use OpenFeature\interfaces\flags\Client;
 use OpenFeature\interfaces\flags\EvaluationContext;
 use OpenFeature\interfaces\hooks\Hook;
 use OpenFeature\interfaces\provider\Provider;
-use Psr\Log\LoggerAwareInterface;
 use Throwable;
 
 use function array_merge;
 use function is_null;
 
-class OpenFeatureAPI implements API, LoggerAwareInterface
+class OpenFeatureAPI implements API
 {
+    use ContainerAwareTrait;
     use LoggerAwareTrait;
 
     private static ?OpenFeatureAPI $instance = null;
-
-    //// TODO: Support global using $_SESSION?
-    // private const GLOBAL_OPEN_FEATURE_KEY = '__OPENFEATURE_INSTANCE_ID__';
 
     private ?Provider $provider = null;
 
@@ -43,15 +41,6 @@ class OpenFeatureAPI implements API, LoggerAwareInterface
      */
     public static function getInstance(): API
     {
-        //// TODO: Support global using $_SESSION?
-        // if (isset($_SESSION)) {
-        //     if (is_null($_SESSION[self::GLOBAL_OPEN_FEATURE_KEY])) {
-        //         $_SESSION[self::GLOBAL_OPEN_FEATURE_KEY] = new self();
-        //     }
-
-        //     return $_SESSION[self::GLOBAL_OPEN_FEATURE_KEY];
-        // }
-
         if (is_null(self::$instance)) {
             self::$instance = new self();
         }
@@ -121,6 +110,7 @@ class OpenFeatureAPI implements API, LoggerAwareInterface
         try {
             $client = new OpenFeatureClient($this, $name, $version);
             $client->setLogger($this->getLogger());
+            $client->setContainer($this->getContainer());
 
             return $client;
         } catch (Throwable $err) {

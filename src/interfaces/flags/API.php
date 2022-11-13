@@ -4,13 +4,14 @@ declare(strict_types=1);
 
 namespace OpenFeature\interfaces\flags;
 
+use OpenFeature\interfaces\common\ContainerAwareInterface;
 use OpenFeature\interfaces\common\Metadata;
 use OpenFeature\interfaces\hooks\HooksAdder;
 use OpenFeature\interfaces\hooks\HooksGetter;
 use OpenFeature\interfaces\provider\ProviderAware;
 use Psr\Log\LoggerAwareInterface;
 
-interface API extends EvaluationContextAware, HooksAdder, HooksGetter, LoggerAwareInterface, ProviderAware
+interface API extends ContainerAwareInterface, EvaluationContextAware, HooksAdder, HooksGetter, LoggerAwareInterface, ProviderAware
 {
     public function getProviderMetadata(): Metadata;
 

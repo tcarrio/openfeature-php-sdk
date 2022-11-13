@@ -4,12 +4,14 @@ declare(strict_types=1);
 
 namespace OpenFeature\interfaces\flags;
 
+use OpenFeature\interfaces\common\ContainerAwareInterface;
 use OpenFeature\interfaces\common\MetadataGetter;
 use OpenFeature\interfaces\hooks\HooksAware;
+use Psr\Log\LoggerAwareInterface;
 
 /**
  * Interface used to resolve flags
  */
-interface Client extends EvaluationContextAware, FeatureDetails, FeatureValues, HooksAware, MetadataGetter
+interface Client extends ContainerAwareInterface, EvaluationContextAware, FeatureDetails, FeatureValues, HooksAware, LoggerAwareInterface, MetadataGetter
 {
 }

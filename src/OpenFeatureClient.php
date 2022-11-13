@@ -19,6 +19,7 @@ use OpenFeature\implementation\hooks\HookExecutor;
 use OpenFeature\implementation\hooks\HookHints;
 use OpenFeature\implementation\provider\Reason;
 use OpenFeature\implementation\provider\ResolutionError;
+use OpenFeature\interfaces\common\ContainerAwareTrait;
 use OpenFeature\interfaces\common\LoggerAwareTrait;
 use OpenFeature\interfaces\common\Metadata as MetadataInterface;
 use OpenFeature\interfaces\flags\API;
@@ -33,14 +34,14 @@ use OpenFeature\interfaces\provider\ErrorCode;
 use OpenFeature\interfaces\provider\Provider;
 use OpenFeature\interfaces\provider\ResolutionDetails;
 use OpenFeature\interfaces\provider\ThrowableWithResolutionError;
-use Psr\Log\LoggerAwareInterface;
 use Throwable;
 
 use function array_merge;
 use function sprintf;
 
-class OpenFeatureClient implements Client, LoggerAwareInterface
+class OpenFeatureClient implements Client
 {
+    use ContainerAwareTrait;
     use HooksAwareTrait;
     use LoggerAwareTrait;
 

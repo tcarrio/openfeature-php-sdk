@@ -6,6 +6,8 @@ namespace OpenFeature\implementation\flags;
 
 use DateTime;
 use OpenFeature\implementation\common\Metadata;
+use OpenFeature\interfaces\common\ContainerAwareTrait;
+use OpenFeature\interfaces\common\LoggerAwareTrait;
 use OpenFeature\interfaces\flags\Client;
 use OpenFeature\interfaces\flags\EvaluationContext as EvaluationContextInterface;
 use OpenFeature\interfaces\flags\EvaluationDetails;
@@ -13,6 +15,9 @@ use OpenFeature\interfaces\flags\EvaluationOptions;
 
 class NoOpClient implements Client
 {
+    use ContainerAwareTrait;
+    use LoggerAwareTrait;
+
     private const CLIENT_NAME = 'no-op-client';
 
     public function getBooleanValue(string $flagKey, bool $defaultValue, ?EvaluationContextInterface $context, ?EvaluationOptions $options): ?bool
